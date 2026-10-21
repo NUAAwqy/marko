@@ -1,5 +1,24 @@
 # @marko/runtime-tags
 
+## 6.4.7
+
+### Patch Changes
+
+- [#4476](https://github.com/marko-js/marko/pull/4476) [`f30aee7`](https://github.com/marko-js/marko/commit/f30aee7b570906778e6a435ad1d2bbb516f9be98) Thanks [@DylanPiercey](https://github.com/DylanPiercey)! - Give every parameterless arrow in the client runtime, the client code the compiler generates (lazy loaders, setup and argument getters) and the inlined reorder runtime an unused parameter, which minifies a byte smaller (`e=>` instead of `()=>`), so pages ship a few bytes less.
+
+- [#4485](https://github.com/marko-js/marko/pull/4485) [`b92c3d6`](https://github.com/marko-js/marko/commit/b92c3d6fcbe00dec32f7f8b7fc8ccd4c150a46a6) Thanks [@DylanPiercey](https://github.com/DylanPiercey)! - A branch the client creates (an `<if>` or `<for>` body, a dynamic tag, an `<await>` body) runs its setup as it is created, before the values it receives, as a template does when it mounts; a `<try>` or `@catch` body still sets up in the queue, before its values, so an error it throws reaches the right `<try>`. A new row is built whole before it is inserted, a new branch's setup effects run before the effects its closures queue, a mounting template's branches run their mount effects before its own (as on resume), a tag's variable reaches the tags after it once they are set up, and an error thrown while an `@catch` body renders its error reaches the enclosing `<try>` instead of escaping it. A loop row that throws while rendering no longer leaves the loop unable to update, and a class component rendering content from a tags `<for>` attribute tag gets the new loop values when they change.
+
+- [#4481](https://github.com/marko-js/marko/pull/4481) [`b612f41`](https://github.com/marko-js/marko/commit/b612f4118552588d7c3c4a81152a075e05b12da9) Thanks [@DylanPiercey](https://github.com/DylanPiercey)! - A client-rendered `<style>` whose placeholder reads a value from outside the control flow body that renders it keeps that declaration; it used to be dropped.
+
+- [#4472](https://github.com/marko-js/marko/pull/4472) [`89a4443`](https://github.com/marko-js/marko/commit/89a444379d1d20deffba79efc25805e6a74cf70b) Thanks [@DylanPiercey](https://github.com/DylanPiercey)! - A `<define>` tag variable's value, and a recursive call's, now depends on what its call passes, as a custom tag's already did, rather than on the params of the content it renders. A variable computed only from input no longer makes the page resume what reads it.
+
+- [#4472](https://github.com/marko-js/marko/pull/4472) [`89a4443`](https://github.com/marko-js/marko/commit/89a444379d1d20deffba79efc25805e6a74cf70b) Thanks [@DylanPiercey](https://github.com/DylanPiercey)! - A page whose `<define>` tag variable is passed to a child tag, or read in an `<if>` or `<for>`, no longer throws `_resumed[registryId] is not a function` on resume: the variable's registration is written only when its value can change in the browser, where the page's module that registers it loads.
+
+- [#4491](https://github.com/marko-js/marko/pull/4491) [`6b9e9ef`](https://github.com/marko-js/marko/commit/6b9e9ef3cbbd0075f23119505fe06390202faf2b) Thanks [@DylanPiercey](https://github.com/DylanPiercey)! - Keep a `__proto__` attribute as an own property of the input it builds, and keep integer keys too large for a number as strings.
+
+- Updated dependencies [[`5e8b7d8`](https://github.com/marko-js/marko/commit/5e8b7d8f71830b83fc28fd88f8b4fb3d4403eeb4), [`134baa7`](https://github.com/marko-js/marko/commit/134baa7a11d5c885dc2b226e3c0211ee1622705a)]:
+  - @marko/compiler@5.42.13
+
 ## 6.4.6
 
 ### Patch Changes
